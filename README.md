@@ -2,7 +2,7 @@
 A simple system based on Docker containers with DNS, Apache/PHP, MySQL and Postfix for internal networks. (testing)
 
 # Introduction
-![SCS Logo](ignore/img1.png)
+![SCS Logo](ignoredir/img1.png)
 Simple Container System is a container based project.
 
 It's designed to be a simple and easily configurable containerized system.
