@@ -1,0 +1,20 @@
+;
+; BIND reverse data file for local loopback interface
+;
+$TTL    604800
+0.0.10.in-addr.arpa.    IN      SOA     scsbind9cont.local.scs. admin.local.scs. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         10800 )       ; Negative Cache TTL
+;
+
+; Servidores DNS
+0.0.10.in-addr.arpa.             IN      NS      scs-bind9-cont.local.scs.
+
+; Registros PTR
+4.0.0.10.in-addr.arpa.          IN      PTR     scs-bind9-cont.local.scs.
+2.0.0.10.in-addr.arpa.          IN      PTR     scs-apache-cont.local.scs.
+3.0.0.10.in-addr.arpa.          IN      PTR     scs-mysql-cont.local.scs.
+5.0.0.10.in-addr.arpa.          IN      PTR     scs-postfix-cont.local.scs.

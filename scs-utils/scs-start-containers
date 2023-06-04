@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Script de inicio de contenedores
+
+echo "Antes de ejecutar este script asegúrate de que Docker está corriendo."
+read -p "Pulsa Ctrl+C para cancelar o cualquier otra telca para continuar"
+
+clear
+# Inicio de contenedores
+echo "---------------------------"
+echo "| INICIANDO CONTENEDORES |"
+echo "---------------------------"
+docker container start scs-bind9-cont
+docker container start scs-postfix-cont
+docker container start scs-mysql-cont
+docker container start scs-apache-cont

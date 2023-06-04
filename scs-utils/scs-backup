@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Script de backup de contenedores
+
+echo "Antes de ejecutar este script asegúrate de que Docker está corriendo."
+read -p "Pulsa Ctrl+C para cancelar o cualquier otra tecla para continuar."
+clear
+
+read -p "Escribe la ruta asboluta donde se guardarán los backups: " bkpath
+clear
+
+isodate=$(date -I)
+isodate=${isodate}_$(date +"%H%M%S")
+
+# Trabajos de copia
+echo "Creando copia de seguridad para bind9... - $isodate"
+docker export --output="$bkpath/bind9$isodate.tar" scs-bind9-cont
+
+echo "Creando copia de seguridad para mysql... - $isodate"
+docker export --output="$bkpath/mysql$isodate.tar" scs-mysql-cont
+
+echo "Creando copia de seguridad para apache... - $isodate"
+docker export --output="$bkpath/apache$isodate.tar" scs-apache-cont
+
+echo "Creando copia de seguridad para postfix... - $isodate"
+docker export --output="$bkpath/postfix$isodate.tar" scs-postfix-cont
+echo
+echo "Copias guardadas en $bkpath "
+cd $bkpath && ls

@@ -1,0 +1,33 @@
+;
+; BIND reverse data file for local loopback interface
+;
+$TTL    604800
+local.scs.       IN      SOA     scs-bind9-cont.local.scs. admin.local.scs. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         10800 )       ; Negative Cache TTL
+;
+
+; Servidores DNS
+local.scs.                      IN      NS      scs-bind9-cont.local.scs.
+
+; Registros
+scs-bind9-cont.local.scs.       IN      A       10.0.0.4
+scs-apache-cont.local.scs.      IN      A       10.0.0.2
+scs-mysql-cont.local.scs.       IN      A       10.0.0.3
+scs-postfix-cont.local.scs.     IN      A       10.0.0.5
+out.local.scs.                  IN      A       192.168.1.100
+;; Change the last IP for your host machine IP in the physical network
+
+; Alias
+dashboard.local.scs.            IN      CNAME   out.local.scs.
+inter.local.scs.                IN      CNAME   scs-apache-cont.local.scs.
+ns1.local.scs.                  IN      CNAME   scs-bind9-cont.local.scs.
+mail.local.scs.                 IN      CNAME   out.local.scs.
+pop.local.scs.                  IN      CNAME   out.local.scs.
+smtp.local.scs.                 IN      CNAME    out.local.scs.
+
+; Correo
+local.scs.                      IN      MX  10  scs-postfix-cont.local.scs.

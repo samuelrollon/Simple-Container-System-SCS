@@ -1,0 +1,72 @@
+version: "3.8"
+services:
+  dnsserv:
+    container_name: "scs-bind9-cont"
+    image: "scs-bind9-img:latest"
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    networks:
+      scs-net:
+        ipv4_address: 10.0.0.4
+    volumes:
+      - ./scs-bind9/myresolv.conf:/etc/resolv.conf
+      - ./scs-bind9/mynamed:/etc/default/named
+      - ./scs-bind9/mynamed.conf.options:/etc/bind/named.conf.options
+      - ./scs-bind9/mynamed.conf.local:/etc/bind/named.conf.local
+      - ./scs-bind9/zones/:/etc/bind/zones/
+
+  db:
+    container_name: "scs-mysql-cont"
+    image: "scs-mysql-img:latest"
+    environment:
+      - MYSQL_ROOT_PASSWORD=debian
+    networks:
+      scs-net:
+        ipv4_address: 10.0.0.3
+    volumes:
+      - ./scs-bind9/myresolv.conf:/etc/resolv.conf
+    depends_on:
+      - dnsserv
+
+  web:
+    container_name: "scs-apache-cont"
+    image: "scs-apache-img:latest"
+    ports:
+      - "80:80"
+    networks:
+      scs-net:
+        ipv4_address: 10.0.0.2
+    volumes:
+      - ./scs-bind9/myresolv.conf:/etc/resolv.conf
+      - ./scs-apache/:/var/www/html/
+    depends_on:
+      - dnsserv
+      - db
+
+  mail:
+    container_name: "scs-postfix-cont"
+    image: "scs-postfix-img:latest"
+    ports:
+      - "25:25"
+      - "143:143"
+      - "993:993"
+    networks:
+      scs-net:
+        ipv4_address: 10.0.0.5
+    volumes:
+      - ./scs-bind9/myresolv.conf:/etc/resolv.conf
+      - ./scs-postfix/postfixconf/mymain.cf:/etc/postfix/main.cf
+      - ./scs-postfix/dovecotconf/my10-mail.conf:/etc/dovecot/conf.d/10-mail.conf
+    depends_on:
+      - dnsserv
+
+networks:
+  scs-net:
+    name: scs-net
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
+          gateway: 10.0.0.1
