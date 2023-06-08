@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Autoinstallation script
+
+echo "Before execute this script first make sure Docker service is running."
+read -p "Press Ctrl+C to cancel or other key to continue"
+
+clear
+# Container deletion
+echo "-----------------------"
+echo "| DELETING CONTAINERS |"
+echo "-----------------------"
+docker container stop scs-postfix-cont
+docker container stop scs-apache-cont
+docker container stop scs-mysql-cont
+docker container stop scs-bind9-cont
+
+docker container rm scs-postfix-cont
+docker container rm scs-apache-cont
+docker container rm scs-mysql-cont
+docker container rm scs-bind9-cont
+
+clear
+# Images deletion
+echo "-------------------"
+echo "| DELETING IMAGES |"
+echo "-------------------"
+docker image rm scs-postfix-img
+docker image rm scs-apache-img
+docker image rm scs-mysql-img
+docker image rm scs-bind9-img
+
+clear
+# Virtual net deletion
+echo "----------------------------"
+echo "| DELETING VIRTUAL NETWORK |"
+echo "----------------------------"
+docker network prune
+
+# Logical volumes deletion
+echo "--------------------"
+echo "| DELETING VOLUMES |"
+echo "--------------------"
+docker volume prune
+
+clear
+# Images creation
+echo "-------------------"
+echo "| CREATING IMAGES |"
+echo "-------------------"
+cd ../images/scs-bind9-img/
+docker build . -t scs-bind9-img -f scs-bind9-img.dockerfile
+cd ../scs-mysql-img/
+docker build . -t scs-mysql-img -f scs-mysql-img.dockerfile
+cd ../scs-apache-img/
+docker build . -t scs-apache-img -f scs-apache-img.dockerfile
+cd ../scs-postfix-img/
+docker build . -t scs-postfix-img -f scs-postfix-img.dockerfile
+
+clear
+# Containers creation
+echo "------------------------"
+echo "| CREATING CONTAINERS |"
+echo "------------------------"
+cd ../../containers/
+docker compose up -d
+echo
+echo "Installation finished."

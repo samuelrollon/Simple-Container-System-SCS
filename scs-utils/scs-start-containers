@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Containers start script
+
+echo "Before execute this script first make sure Docker service is running."
+read -p "Press Ctrl+C to cancel or other key to continue"
+
+clear
+# Containers start
+echo "-----------------------"
+echo "| STARTING CONTAINERS |"
+echo "-----------------------"
+docker container start scs-bind9-cont
+docker container start scs-postfix-cont
+docker container start scs-mysql-cont
+docker container start scs-apache-cont

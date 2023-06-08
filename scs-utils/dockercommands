@@ -1,0 +1,58 @@
+# Download images
+```
+docker pull <imageName>:<version>
+```
+
+Example:
+```
+docker pull debian:bookworm
+```
+# Deploy images
+```
+docker build . -t <imageName> -f <Dockerfile>
+```
+
+Example:
+```
+docker build . -t mycustom-image -f mycustom.dockerfile
+```
+
+# Create containers manually
+```
+docker run --name <containerName> [OPTIONS] <imageName>:<version>
+```
+
+Example:
+```
+docker run --name MyFirstContainer -p 80:80 --cpus=1 --memory=1GB apache:latest
+```
+
+# Deploy Containers
+```
+docker compose up . -d
+```
+
+# Start/pause/restart/stop containers manually
+```
+docker container <stop|pause|unpause|restart|start> <containerName>
+```
+
+# List images
+```
+docker image ls
+```
+
+# List containers
+```
+docker container ls -a
+```
+
+# List running containers
+```
+docker container ls
+```
+
+# View containers state
+```
+docker ps
+```

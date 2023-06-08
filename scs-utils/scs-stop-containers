@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Containers stop script
+
+echo "Before execute this script first make sure Docker service is running."
+read -p "Press Ctrl+C to cancel or other key to continue"
+
+clear
+# Containers stop
+echo "-----------------------"
+echo "| STOPPING CONTAINERS |"
+echo "-----------------------"
+docker container stop scs-postfix-cont
+docker container stop scs-apache-cont
+docker container stop scs-mysql-cont
+docker container stop scs-bind9-cont

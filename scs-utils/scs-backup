@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Containers backup script
+
+echo "Before execute this script first make sure Docker service is running."
+read -p "Press Ctrl+C to cancel or other key to continue"
+clear
+
+read -p "Type the absolute path where the backups will be saved:" bkpath
+clear
+
+isodate=$(date -I)
+isodate=${isodate}_$(date +"%H%M%S")
+
+# Backup jobs
+echo "Creationg backup for bind9..." - $isodate"
+docker export --output="$bkpath/bind9$isodate.tar" scs-bind9-cont
+
+echo "Creationg backup for mysql..." - $isodate"
+docker export --output="$bkpath/mysql$isodate.tar" scs-mysql-cont
+
+echo "Creationg backup for apache..." - $isodate"
+docker export --output="$bkpath/apache$isodate.tar" scs-apache-cont
+
+echo "Creationg backup for postfix..." - $isodate"
+docker export --output="$bkpath/postfix$isodate.tar" scs-postfix-cont
+echo
+echo "Backups stored in $bkpath "
+cd $bkpath && ls
