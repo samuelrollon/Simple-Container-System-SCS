@@ -15,7 +15,7 @@ The project contains personalized images and containers.
 A BIND9 server with predefined names and IPs for the internal Docker network and also be useful in the external network.
 
 ## Apache/PHP and MySQL Containers
-An Apache/PHP web server it's used for manage employees, projects, clients and sales.
+An Apache/PHP web server.
 
 It use a MySQL server container.
 
